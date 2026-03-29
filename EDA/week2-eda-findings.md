@@ -42,10 +42,34 @@ Variables analyzed (in order): Age, Cholesterol, MaxHR, RestingBP
 
 ### Anomaly Log
 
+#### Clinically Implausible / Missing Values
+
 | Anomaly | Count | Notes |
 |---------|-------|-------|
 | Cholesterol = 0 | 172 records | Medically implausible; likely missing lab measurements or data entry placeholders |
-| RestingBP = 0 | 1 record | Should be treated as missing/anomalous |
+| RestingBP = 0 | 1 record | Patient (Age=55, M) also has Cholesterol=0 — likely a completely missing record |
+| Oldpeak < 0 (negative) | 13 records | ST depression shouldn't be negative — may indicate measurement error or alternate recording method. All 13 are male; 10 of 13 have heart disease |
+| Oldpeak = 0 | 368 records (40.1%) | Very high proportion — could indicate no exercise-induced ST change, or missing data |
+
+#### Statistical Outliers (IQR Method)
+
+| Variable | Outlier Direction | Count | Values |
+|----------|------------------|-------|--------|
+| Cholesterol | High (> 408) | 11 records | Range: 409–603. Four patients have Cholesterol > 500 (518, 529, 564, 603) |
+| RestingBP | High (> 170) | 26 records | Range: 172–200 |
+| RestingBP | Low (< 90) | 2 records | 0 and 80 |
+| MaxHR | Low (< 66) | 2 records | 60 and 63 — unusually low max heart rates |
+| Oldpeak | High (> 3.75) | 15 records | Range: 3.8–6.2 — extreme ST depression values |
+| Oldpeak | Low (< -2.25) | 1 record | -2.6 (Age=46, M) |
+| Age | None | 0 | Range 28–77, no outliers |
+
+#### Notable Patterns
+
+| Finding | Details |
+|---------|---------|
+| **Young patients with disease** | 26 patients under age 40 have heart disease. Most are male and asymptomatic (ASY). This connects to Week 3's "Outliers" question. |
+| **Extreme cholesterol cases** | 4 patients have Cholesterol > 500 (ages 32, 53, 54, 67). 3 of 4 have heart disease. The one without disease is the only female in this group. |
+| **The "double-zero" patient** | 1 patient (Age=55, M) has BOTH RestingBP=0 AND Cholesterol=0 — this record is almost certainly a data entry failure. |
 
 ---
 
